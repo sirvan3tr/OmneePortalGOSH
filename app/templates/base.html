@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }}</title>
+      {% else %}
+      <title></title>
+      {% endif %}
+      <link href="/static/cs.css" rel="stylesheet" media="screen">
+      <link href="/static/bootstrap-4.1.2-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+      <!-- script src="/static/bootstrap-4.1.2-dist/js/bootstrap.min.js"></script -->
+    </head>
+    <body>
+
+      <div class="gosh-header d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">GOSH Recruitment - Omnee API</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-light" href="/">Home</a>
+        <a class="p-2 text-light" href="/docs">Documentation</a>
+        <a class="p-2 text-light" href="/about">About</a>
+        <a class="p-2 text-light" href="/contact">Contact</a>
+        <a class="p-2 text-light" href="/register">Register</a>
+      </nav>
+      
+      {% if loginJSON.status == 0 %}
+      <a class="btn btn-outline-light" href="/login">Login</a>
+      {% endif %}
+
+      {% if loginJSON.status == 1 %}
+      <a class="btn btn-outline-light" href="/logout">Logout</a>
+      {% endif %}
+
+      </div>
+      <div class="container gosh-body">
+        {% block content %}{% endblock %}
+      </div>
+    </body>
+</html>

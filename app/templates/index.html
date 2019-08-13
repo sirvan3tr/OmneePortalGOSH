@@ -1,0 +1,103 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h3>{{ loginJSON.name }}</h3>
+{% if loginJSON.status == 0 %}
+    <p>It seems you're not logged in.</p>
+{% endif %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h3>Great Ormond St Hospital Recruitment</h3>
+    <p class="lead">Are you interested in working for GOSH?</p>
+</div>
+
+<div class="view-header">
+
+</div>
+
+<div class="row">
+  <div class="col-sm shadow p-3 mb-5 bg-light rounded" style="text-align: justify;">
+  <h4>About you</h4>
+  <p class="homepage-section-intro">We don’t just want to recruit the best nurses. We want them to stay with us for the long-term too. That’s why we’ll do everything we can to support you - and help you make your professional ambitions a reality.</p>
+  <div class="text-center">
+  <img class="rounded" src="/static/img/robot.jpg" style="width: 80%; margin: 10px 0;"/>
+  </div>
+  <p>With such a wide range of specialities, we can offer our nurses and ODPs the opportunity to work across a diverse number of areas from ENT, thoracics, renal transplants and ophthalmics to robotics, orthopaedics, complex vascular, cardiac in adults and paediatrics and more. Our long history of cutting-edge surgery means that you could also be involved with some of the world’s most advanced procedures. For example, our team recently performed one of the UK’s first robotic lobectomies. </p>
+  </div>
+  <div class="col-sm shadow p-3 mb-5 bg-white rounded">
+      <center>
+        <h4>Lets get strated...</h4>
+        <h4>Scan the QR Code below!</h4>
+      
+          Scan the QR code using your Omnee app!
+          <br />
+          <canvas id="qr"></canvas>
+      </center>
+  </div>
+</div>
+<script type="text/javascript" src="/static/js/qrious.min.js"></script>
+<script>
+  /*
+Initilisation
+
+*/
+var ws = new WebSocket("ws://127.0.0.1:5679/");
+msg = 0
+ws.onmessage = function(event) {
+    msg +=1;
+    document.getElementById('qr').innerHTML = '';
+    var dataJSON = JSON.parse(event.data);
+    console.log(dataJSON);
+
+    if (dataJSON['type'] == "uID" && msg == 2) {
+        console.log(dataJSON);
+        var qr = new QRious({
+            element: document.getElementById('qr'),
+            size: 200,
+            value: dataJSON['uID'].toString()
+        });
+    }
+}
+</script>
+
+<div class="container">
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img class="mb-2" src="../../assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">© 2017-2018</small>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" href="#">Cool stuff</a></li>
+              <li><a class="text-muted" href="#">Random feature</a></li>
+              <li><a class="text-muted" href="#">Team feature</a></li>
+              <li><a class="text-muted" href="#">Stuff for developers</a></li>
+              <li><a class="text-muted" href="#">Another one</a></li>
+              <li><a class="text-muted" href="#">Last time</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" href="#">Resource</a></li>
+              <li><a class="text-muted" href="#">Resource name</a></li>
+              <li><a class="text-muted" href="#">Another resource</a></li>
+              <li><a class="text-muted" href="#">Final resource</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" href="#">Team</a></li>
+              <li><a class="text-muted" href="#">Locations</a></li>
+              <li><a class="text-muted" href="#">Privacy</a></li>
+              <li><a class="text-muted" href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+{% endblock %}
